@@ -37,16 +37,14 @@ import android.graphics.Typeface;
 import android.util.Base64;
 import android.util.Log;
 
+import com.steadystate.css.parser.CSSOMParser;
+import org.w3c.dom.css.CSSStyleSheet;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
@@ -1175,6 +1173,9 @@ public class SVGParser {
 		SvgText text = null;
 
 		private boolean inDefsElement = false;
+        private boolean inStyleElement = false;
+        private String cssText = null;
+        private CSSStyleSheet styleSheet = null;
 
 		private SVGHandler(Picture picture) {
 			this.picture = picture;
@@ -1525,6 +1526,7 @@ public class SVGParser {
 	      }
 		}
 
+
 		@Override
 		public void startElement(String namespaceURI, String localName, String qName, Attributes atts) {
 			//appendElementString(parsed, namespaceURI, localName, qName, atts);
@@ -1556,7 +1558,10 @@ public class SVGParser {
 			}
 
 			if (inDefsElement) {
-				return;
+				if(localName.equals("style")){
+                    inStyleElement=true;
+                }
+                return;
 			}
 
 			if (localName.equals("svg")) {
@@ -1853,7 +1858,9 @@ public class SVGParser {
 		@Override
 		public void characters(char ch[], int start, int length) {
 			// Log.i(TAG, new String(ch) + " " + start + "/" + length);
-			if (text != null) {
+            if(inStyleElement){
+                cssText = new String(ch, start, length);
+            }else if (text != null) {
 				text.setText(ch, start, length);
 			}
 		}
@@ -1866,6 +1873,19 @@ public class SVGParser {
 			parsed.append(">");*/
 
 			if (inDefsElement) {
+
+                if (localName.equals("style")) {
+                    if(cssText!=null){
+                        CSSOMParser cssParser = new CSSOMParser();
+                        org.w3c.css.sac.InputSource source = new org.w3c.css.sac.InputSource(
+                                new InputStreamReader(
+                                        new ByteArrayInputStream(cssText.getBytes())));
+                        try {
+                            styleSheet = cssParser.parseStyleSheet(source, null, null);
+                        }catch(IOException e){}
+                    }
+                    inStyleElement = false;
+                }
 				if (localName.equals("defs")) {
 					inDefsElement = false;
 				}
