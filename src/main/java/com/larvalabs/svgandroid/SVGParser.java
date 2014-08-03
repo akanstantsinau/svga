@@ -1159,7 +1159,8 @@ public class SVGParser {
 
 		private boolean inDefsElement = false;
         private boolean inStyleElement = false;
-        private String cssText = null;
+        private StringBuilder cssTextBuilder = null;
+
         private CssEngine cssEngine = new CssEngine();
 
 		private SVGHandler(Picture picture) {
@@ -1847,7 +1848,10 @@ public class SVGParser {
 		public void characters(char ch[], int start, int length) {
 			// Log.i(TAG, new String(ch) + " " + start + "/" + length);
             if(inStyleElement){
-                cssText = new String(ch, start, length);
+                if(cssTextBuilder == null){
+                    cssTextBuilder = new StringBuilder();
+                }
+                cssTextBuilder.append(ch, start, length);
             }else if (text != null) {
 				text.setText(ch, start, length);
 			}
@@ -1863,8 +1867,8 @@ public class SVGParser {
 			if (inDefsElement) {
 
                 if (localName.equals("style")) {
-                    if(cssText!=null){
-                        cssEngine.init(cssText);
+                    if(cssTextBuilder!=null){
+                        cssEngine.init(cssTextBuilder.toString());
                     }
                     inStyleElement = false;
                 }

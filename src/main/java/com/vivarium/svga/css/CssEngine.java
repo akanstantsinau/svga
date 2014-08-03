@@ -57,7 +57,7 @@ public class CssEngine {
                 for (int j = 0; j < styleDeclaration.getLength(); j++) {
                     String property = styleDeclaration.item(j);
                     String value = styleDeclaration.getPropertyCSSValue(property).getCssText();
-                    attributes.put(property, value);
+                    attributes.put(property, transformAttribute(value));
                 }
             }
         }
@@ -68,9 +68,15 @@ public class CssEngine {
             AttributeCondition attrCond = (AttributeCondition) selector.getCondition();
             switch(attrCond.getConditionType()) {
                 case Condition.SAC_CLASS_CONDITION:
-                    if (attrCond.getValue().equals(attributes.get("class"))) {
-                        return true;
+                    if(attributes.get("class")!=null){
+                        String cls[] = attributes.get("class").split(" ");
+                        for(int i = 0 ; i < cls.length ; i++){
+                            if (attrCond.getValue().equals(cls[i])) {
+                                return true;
+                            }
+                        }
                     }
+
                     break;
                 case Condition.SAC_ID_CONDITION:
                     if (attrCond.getValue().equals(attributes.get("id"))) {
@@ -80,6 +86,26 @@ public class CssEngine {
             }
         }
         return false;
+    }
+
+    private String transformAttribute(String attr){
+        if(attr.startsWith("rgb(")){
+            String[] rgb = attr.substring(4, attr.length() - 1).split(",");
+            String red = Integer.toHexString(Integer.parseInt(rgb[0].trim()));
+            if(red.length()==1){
+                red = "0" + red;
+            }
+            String green = Integer.toHexString(Integer.parseInt(rgb[1].trim()));
+            if(green.length()==1){
+                green = "0" + green;
+            }
+            String blue = Integer.toHexString(Integer.parseInt(rgb[2].trim()));
+            if(blue.length()==1){
+                blue = "0" + blue;
+            }
+            return "#" + red + green + blue;
+        }
+        return attr;
     }
 
 }
