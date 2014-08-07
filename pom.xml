@@ -18,6 +18,11 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
+      <groupId>xml-apis</groupId>
+      <artifactId>xml-apis</artifactId>
+      <version>1.0.b2</version>
+    </dependency>
+    <dependency>
       <groupId>net.sourceforge.cssparser</groupId>
       <artifactId>cssparser</artifactId>
       <version>0.9.14</version>
@@ -42,12 +47,12 @@
       </plugin>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.4</version>
         <configuration>
-          <archive>
-          </archive>
-          <descriptorRefs>
+          <descriptor>assembly.xml</descriptor>
+          <!--descriptorRefs>
             <descriptorRef>jar-with-dependencies</descriptorRef>
-          </descriptorRefs>
+          </descriptorRefs-->
         </configuration>
       </plugin>
     </plugins>
