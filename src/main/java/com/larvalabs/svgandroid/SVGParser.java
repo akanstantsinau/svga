@@ -88,6 +88,15 @@ public class SVGParser {
 	static final String TAG = "SVG";
 	static float DPI = 72.0f;   // Should be settable
 
+    private static int targetWidth;
+    private static int targetHeight;
+
+    
+    public SVGParser(int x, int y){
+        targetWidth = x;
+        targetHeight = y;
+    }
+
 	/**
 	 * Parse SVG data from an input stream.
 	 * @param svgData the input stream, with SVG XML data in UTF-8 character encoding.
