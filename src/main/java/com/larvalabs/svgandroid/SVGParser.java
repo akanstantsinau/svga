@@ -91,7 +91,7 @@ public class SVGParser {
     private static int targetWidth;
     private static int targetHeight;
 
-    
+
     public SVGParser(int x, int y){
         targetWidth = x;
         targetHeight = y;
