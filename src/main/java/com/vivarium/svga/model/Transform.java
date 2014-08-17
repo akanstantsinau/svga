@@ -4,6 +4,7 @@ package com.vivarium.svga.model;
  * Created by neurons on 8/9/14.
  */
 public class Transform {
+    public static final double DELTA = 0.01;
     private Unit[][] matrix;
 
     public Transform(Unit[][] m){
@@ -57,12 +58,25 @@ public class Transform {
             for(int j = 0 ; j < 3 ; j++){
                 Unit u = new Unit();
                 for(int k = 0 ; k < 3 ; k++){
-                    u.addMul(t1.matrix[i][k], t2.matrix[k][j]);
+                    //u.addMul(t1.matrix[i][k], t2.matrix[k][j]);
+                    u.addMul(t1.matrix[k][j], t2.matrix[i][k]);
                 }
                 m[i][j] = u;
             }
         }
         Transform result = new Transform(m);
+        return result;
+    }
+
+    public static Unit[] transformPoint(Unit x, Unit y, Transform t){
+        Unit[] result = new Unit[2];
+        result[0] = new Unit(t.matrix[0][2]);
+        result[0].addMul(t.matrix[0][0], x);
+        result[0].addMul(t.matrix[0][1], y);
+
+        result[1] = new Unit(t.matrix[1][2]);
+        result[1].addMul(t.matrix[1][0], x);
+        result[1].addMul(t.matrix[1][1], y);
         return result;
     }
 }

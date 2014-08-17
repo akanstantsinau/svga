@@ -5,6 +5,20 @@ package com.vivarium.svga.model;
  */
 public class Unit {
     private float value;
+
+    public Unit(Unit unit) {
+        this.value = unit.value;
+        this.type = unit.type;
+    }
+
+    public UnitType getType() {
+        return type;
+    }
+
+    public void setType(UnitType type) {
+        this.type = type;
+    }
+
     private UnitType type;
     public Unit(float v, UnitType t){
         value=v;
@@ -17,6 +31,10 @@ public class Unit {
     public Unit(float v){
         value=v;
         type=UnitType.SCALAR;
+    }
+
+    public float getValue(){
+        return value;
     }
 
     public void addMul(Unit a, Unit b){
@@ -33,6 +51,9 @@ public class Unit {
 
         if(type == UnitType.ZERO){
             type = resultType;
+        }
+        if(resultType ==UnitType.ZERO){
+            resultType = type;
         }
 
         if(type != resultType){
