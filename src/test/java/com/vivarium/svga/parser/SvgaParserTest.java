@@ -15,6 +15,10 @@ public class SvgaParserTest {
     @Test
     public void helloWorldTest(){
         Renderer renderer = createNiceMock(Renderer.class);
+        expect(renderer.getDpi()).andReturn(72).anyTimes();
+        expect(renderer.getWidthInPixels()).andReturn(1024).anyTimes();
+        expect(renderer.getHeightInPixels()).andReturn(768).anyTimes();
+        
         renderer.drawRect(eq(new Unit(1)),
                 eq(new Unit(1)),
                 eq(new Unit(1198)),

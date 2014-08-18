@@ -6,6 +6,7 @@ package com.vivarium.svga.model;
 public class Unit {
     private float value;
     public static float DELTA = 0.01f;
+    public float CM_PER_INCH = 2.54f;
 
     @Override
     public boolean equals(Object o){
@@ -19,6 +20,16 @@ public class Unit {
     public Unit(Unit unit) {
         this.value = unit.value;
         this.type = unit.type;
+    }
+
+    public Unit toPixels( int dpi){
+        if(type == UnitType.SCALAR || type == UnitType.ZERO){
+            return this;
+        }
+        if(type==UnitType.CM){
+            return new Unit(value * (float)dpi / CM_PER_INCH);
+        }
+        throw new IllegalStateException("Not implemented yet.");
     }
 
     public UnitType getType() {

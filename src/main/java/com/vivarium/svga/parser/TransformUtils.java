@@ -18,7 +18,7 @@ public class TransformUtils {
      * @param preserveAspectRatio
      * @return Transformation matrix
      */
-    public Transform getViewportTransform(Unit targetWidth,
+    public static Transform getViewportTransform(Unit targetWidth,
                                           Unit targetHeight,
                                           Unit viewportWidth,
                                           Unit viewPortHeight,
@@ -67,7 +67,7 @@ public class TransformUtils {
         }
         return result;
     }
-    private float getDelta(float value, PreserveAspectRatio.Align align){
+    private static float getDelta(float value, PreserveAspectRatio.Align align){
         switch(align){
             case MAX:
                 break;
