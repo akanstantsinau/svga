@@ -5,6 +5,24 @@ package com.vivarium.svga.model;
  */
 public interface Renderer {
     /**
+     * Returns target device DPI.
+     * @return DPI
+     */
+    public int getDpi();
+
+    /**
+     * Returns target device screen width in pixels.
+     * @return
+     */
+    public int getWidthInPixels();
+
+    /**
+     * Returns target device screen height in pixels.
+     * @return
+     */
+    public int getHeightInPixels();
+
+    /**
      * Draws a rectangle which is axis-aligned with the current user coordinate system.
      * Rounded rectangles can be achieved by setting appropriate values for attributes ‘rx’ and ‘ry’.
      * @param x The x-axis coordinate of the side of the rectangle which has the smaller x-axis

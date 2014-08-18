@@ -5,6 +5,16 @@ package com.vivarium.svga.model;
  */
 public class Unit {
     private float value;
+    public static float DELTA = 0.01f;
+
+    @Override
+    public boolean equals(Object o){
+        return o instanceof Unit &&
+                ((Unit) o).type == type &&
+                ((Unit) o).value - value < DELTA &&
+                ((Unit) o).value - value > -DELTA;
+
+    }
 
     public Unit(Unit unit) {
         this.value = unit.value;

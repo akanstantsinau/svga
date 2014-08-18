@@ -15,10 +15,10 @@ public class SvgaParserTest {
     @Test
     public void helloWorldTest(){
         Renderer renderer = createNiceMock(Renderer.class);
-        renderer.drawRect(anyObject(Unit.class),
-                anyObject(Unit.class),
-                anyObject(Unit.class),
-                anyObject(Unit.class),
+        renderer.drawRect(eq(new Unit(1)),
+                eq(new Unit(1)),
+                eq(new Unit(1198)),
+                eq(new Unit(398)),
                 anyObject(Unit.class),
                 anyObject(Unit.class),
                 anyObject(Transform.class),
